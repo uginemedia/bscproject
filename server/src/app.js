@@ -1,0 +1,51 @@
+const express = require("express");
+const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+const app = express();
+const authRoutes = require("./routes/authRoutes.js");
+const userRoutes = require("./routes/userRoutes");
+const bloodRequestRoutes = require("./routes/bloodRequestRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+const donationRoutes = require("./routes/donationRoutes");
+
+// Middlewares
+app.use(helmet());
+
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  }),
+);
+
+app.use(express.json());
+
+app.use(
+  express.urlencoded({
+    extended: true,
+  }),
+);
+
+app.use(cookieParser());
+
+app.use(morgan("dev"));
+
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+
+app.use("/api/blood-requests", bloodRequestRoutes);
+
+app.use("/api/notifications", notificationRoutes);
+
+app.use("/api/donations", donationRoutes);
+
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Smart Blood Donor Matching API Running",
+  });
+});
+
+module.exports = app;

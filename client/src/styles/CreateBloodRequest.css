@@ -1,0 +1,528 @@
+/* ================================
+   CREATE BLOOD REQUEST
+================================ */
+
+.blood-request-page {
+  min-height: 100vh;
+  padding: 45px 20px 70px;
+  background: #f5f7fa;
+}
+
+.blood-request-wrapper {
+  width: 100%;
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.blood-request-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.header-icon {
+  width: 58px;
+  height: 58px;
+  background: #c7191f;
+  color: white;
+  border-radius: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 34px;
+  font-weight: 300;
+
+  box-shadow: 0 8px 20px rgba(199, 25, 31, 0.2);
+}
+
+.header-label {
+  margin: 0 0 5px;
+  color: #c7191f;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.blood-request-header h1 {
+  margin: 0 0 7px;
+  font-size: 32px;
+  color: #202124;
+}
+
+.blood-request-header p:last-child {
+  margin: 0;
+  color: #747474;
+  line-height: 1.5;
+}
+
+/* ================================
+   LAYOUT
+================================ */
+
+.blood-request-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 25px;
+  align-items: start;
+}
+
+/* ================================
+   FORM CARD
+================================ */
+
+.blood-request-card {
+  background: white;
+  padding: 35px;
+  border-radius: 18px;
+  border: 1px solid #eeeeee;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* ================================
+   SECTION HEADINGS
+================================ */
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 25px;
+}
+
+.form-section-heading {
+  margin-top: 38px;
+  padding-top: 32px;
+  border-top: 1px solid #eeeeee;
+}
+
+.section-number {
+  min-width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+  background: #fff0f1;
+  color: #c7191f;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.section-heading h2 {
+  margin: 0 0 5px;
+  color: #222;
+  font-size: 19px;
+}
+
+.section-heading p {
+  margin: 0;
+  color: #888;
+  font-size: 14px;
+}
+
+/* ================================
+   FORM
+================================ */
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.form-group {
+  margin-bottom: 21px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+
+  color: #303030;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group label span {
+  color: #c7191f;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border: 1px solid #dcdcdc;
+  border-radius: 9px;
+
+  background: #fff;
+  color: #222;
+
+  font-family: inherit;
+  font-size: 15px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #aaa;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: #c9c9c9;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #c7191f;
+  box-shadow: 0 0 0 3px rgba(199, 25, 31, 0.08);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 7px;
+
+  color: #929292;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ================================
+   URGENCY
+================================ */
+
+.urgency-select {
+  font-weight: 600;
+}
+
+.urgency-select.normal {
+  color: #333;
+}
+
+.urgency-select.urgent {
+  color: #b36b00;
+}
+
+.urgency-select.critical {
+  color: #c7191f;
+}
+
+/* ================================
+   SUBMIT AREA
+================================ */
+
+.submit-area {
+  margin-top: 35px;
+  padding-top: 28px;
+
+  border-top: 1px solid #eeeeee;
+}
+
+.create-request-button {
+  width: 100%;
+  min-height: 52px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #c7191f;
+  color: white;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  box-shadow: 0 8px 18px rgba(199, 25, 31, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.create-request-button:hover:not(:disabled) {
+  background: #a9141a;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(199, 25, 31, 0.24);
+}
+
+.create-request-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.create-request-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.create-request-button span {
+  font-size: 20px;
+}
+
+/* Button loading spinner */
+
+.button-spinner {
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: white;
+
+  border-radius: 50%;
+
+  animation: request-spinner 0.7s linear infinite;
+}
+
+@keyframes request-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.submit-area > p {
+  margin: 12px 0 0;
+
+  color: #8a8a8a;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ================================
+   INFORMATION PANEL
+================================ */
+
+.request-info-panel {
+  position: sticky;
+  top: 25px;
+
+  background: #1f2227;
+  color: white;
+
+  padding: 30px;
+  border-radius: 18px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.info-panel-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+
+  color: #ff5b61;
+  font-size: 22px;
+
+  margin-bottom: 18px;
+}
+
+.request-info-panel > h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+}
+
+.request-info-panel > p {
+  margin: 0 0 28px;
+
+  color: #bfc1c5;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ================================
+   STEPS
+================================ */
+
+.info-step {
+  display: flex;
+  gap: 13px;
+
+  padding: 18px 0;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.step-icon {
+  flex-shrink: 0;
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #c7191f;
+  color: white;
+
+  border-radius: 50%;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.info-step h3 {
+  margin: 0 0 5px;
+
+  color: white;
+  font-size: 14px;
+}
+
+.info-step p {
+  margin: 0;
+
+  color: #aeb1b5;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ================================
+   INFORMATION NOTE
+================================ */
+
+.info-panel-note {
+  margin-top: 20px;
+  padding: 16px;
+
+  background: rgba(199, 25, 31, 0.14);
+  border: 1px solid rgba(255, 91, 97, 0.18);
+
+  border-radius: 10px;
+}
+
+.info-panel-note strong {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #ff656b;
+  font-size: 13px;
+}
+
+.info-panel-note p {
+  margin: 0;
+
+  color: #c9cbcf;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 900px) {
+  .blood-request-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .request-info-panel {
+    position: static;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+  .blood-request-page {
+    padding: 25px 15px 50px;
+  }
+
+  .blood-request-header {
+    align-items: flex-start;
+  }
+
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 12px;
+    font-size: 28px;
+  }
+
+  .blood-request-header h1 {
+    font-size: 25px;
+  }
+
+  .header-label {
+    font-size: 10px;
+  }
+
+  .blood-request-header p:last-child {
+    font-size: 13px;
+  }
+
+  .blood-request-card {
+    padding: 25px 18px;
+    border-radius: 14px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .section-heading {
+    gap: 10px;
+  }
+
+  .section-number {
+    min-width: 34px;
+    height: 34px;
+  }
+
+  .section-heading h2 {
+    font-size: 17px;
+  }
+
+  .section-heading p {
+    font-size: 12px;
+  }
+
+  .request-info-panel {
+    padding: 25px 20px;
+    border-radius: 14px;
+  }
+}

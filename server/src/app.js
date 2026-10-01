@@ -9,9 +9,11 @@ const userRoutes = require("./routes/userRoutes");
 const bloodRequestRoutes = require("./routes/bloodRequestRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const donationRoutes = require("./routes/donationRoutes");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 // Middlewares
-app.use(helmet());
 
 app.use(
   cors({
@@ -19,6 +21,8 @@ app.use(
     credentials: true,
   }),
 );
+
+app.use(helmet());
 
 app.use(express.json());
 

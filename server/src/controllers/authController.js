@@ -91,7 +91,57 @@ const login = async (req, res) => {
   }
 };
 
+// Update Profile User
+const updateProfile = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const {
+      fullName,
+      phone,
+      bloodGroup,
+      genotype,
+      state,
+      city,
+      weight,
+      isAvailable,
+    } = req.body;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    user.fullName = fullName;
+    user.phone = phone;
+    user.bloodGroup = bloodGroup;
+    user.genotype = genotype;
+    user.state = state;
+    user.city = city;
+    user.weight = weight;
+    user.isAvailable = isAvailable;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
+  updateProfile,
 };

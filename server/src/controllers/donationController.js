@@ -34,6 +34,30 @@ const respondToRequest = async (req, res) => {
   }
 };
 
+const getRequestDonations = async (req, res) => {
+  try {
+    const { bloodRequestId } = req.params;
+
+    const donations = await Donation.find({
+      bloodRequest: bloodRequestId,
+    })
+      .populate("donor", "fullName email phone bloodGroup state city")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      total: donations.length,
+      donations,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   respondToRequest,
+  getRequestDonations,
 };

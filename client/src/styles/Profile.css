@@ -13,7 +13,6 @@
   margin: 0 auto;
 }
 
-
 /* =========================================
    PROFILE HERO
 ========================================= */
@@ -53,7 +52,6 @@
   background: rgba(255, 255, 255, 0.04);
 }
 
-
 /* =========================================
    AVATAR
 ========================================= */
@@ -72,10 +70,8 @@
   color: white;
   font-size: 30px;
   font-weight: 700;
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
-
 
 /* =========================================
    HERO CONTENT
@@ -109,7 +105,6 @@
   font-size: 14px;
   line-height: 1.6;
 }
-
 
 /* =========================================
    STATUS
@@ -153,7 +148,6 @@
   background: currentColor;
 }
 
-
 /* =========================================
    MAIN CARD
 ========================================= */
@@ -168,10 +162,8 @@
 
   border: 1px solid #eeeeee;
 
-  box-shadow:
-    0 10px 35px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
 }
-
 
 /* =========================================
    CARD HEADER
@@ -223,7 +215,6 @@
 
   font-size: 20px;
 }
-
 
 /* =========================================
    FORM SECTIONS
@@ -282,7 +273,6 @@
   font-size: 12px;
 }
 
-
 /* =========================================
    FORM GRID
 ========================================= */
@@ -311,7 +301,6 @@
   font-weight: 700;
 }
 
-
 /* =========================================
    INPUTS
 ========================================= */
@@ -338,8 +327,7 @@
 .input-wrapper:focus-within {
   border-color: #c7191f;
 
-  box-shadow:
-    0 0 0 3px rgba(199, 25, 31, 0.08);
+  box-shadow: 0 0 0 3px rgba(199, 25, 31, 0.08);
 }
 
 .input-icon {
@@ -407,7 +395,6 @@
   font-size: 11px;
 }
 
-
 /* =========================================
    INPUT UNIT
 ========================================= */
@@ -421,7 +408,6 @@
 
   font-weight: 600;
 }
-
 
 /* =========================================
    AVAILABILITY
@@ -486,7 +472,6 @@
   line-height: 1.5;
 }
 
-
 /* =========================================
    CUSTOM SWITCH
 ========================================= */
@@ -549,7 +534,6 @@
   transform: translateX(22px);
 }
 
-
 /* =========================================
    FORM FOOTER
 ========================================= */
@@ -577,7 +561,6 @@
 
   line-height: 1.5;
 }
-
 
 /* =========================================
    SAVE BUTTON
@@ -621,8 +604,7 @@
 
   transform: translateY(-2px);
 
-  box-shadow:
-    0 8px 20px rgba(199, 25, 31, 0.2);
+  box-shadow: 0 8px 20px rgba(199, 25, 31, 0.2);
 }
 
 .save-profile-button:disabled {
@@ -634,7 +616,6 @@
 .save-profile-button span {
   font-size: 18px;
 }
-
 
 /* =========================================
    LOADING SPINNER
@@ -659,7 +640,6 @@
   }
 }
 
-
 /* =========================================
    LOGIN REQUIRED
 ========================================= */
@@ -677,8 +657,7 @@
 
   border-radius: 18px;
 
-  box-shadow:
-    0 10px 35px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
 }
 
 .profile-login-icon {
@@ -706,13 +685,11 @@
   color: #888;
 }
 
-
 /* =========================================
    TABLET
 ========================================= */
 
 @media (max-width: 800px) {
-
   .profile-page {
     padding: 30px 20px 50px;
   }
@@ -738,13 +715,11 @@
   }
 }
 
-
 /* =========================================
    MOBILE
 ========================================= */
 
 @media (max-width: 600px) {
-
   .profile-page {
     padding: 20px 14px 40px;
   }
@@ -810,4 +785,27 @@
   .profile-form-footer {
     padding-top: 25px;
   }
+}
+
+/* PROFILE LINK BACK TO DASHBOARD */
+
+.profile-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+
+  color: #c7191f;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.profile-back-link span {
+  font-size: 22px;
+  line-height: 1;
 }

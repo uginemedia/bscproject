@@ -12,13 +12,13 @@ const CreateBloodRequest = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    patientName: "",
     bloodGroup: "",
     unitsNeeded: "",
     urgency: "Normal",
-    reason: "",
     state: user?.state || "",
     city: user?.city || "",
+    bloodComponentType: "Whole Blood",
+    specialProcessingNeeds: [],
   });
 
   const [loading, setLoading] = useState(false);
@@ -34,12 +34,11 @@ const CreateBloodRequest = () => {
     e.preventDefault();
 
     if (
-      !formData.patientName ||
       !formData.bloodGroup ||
       !formData.unitsNeeded ||
-      !formData.reason ||
       !formData.state ||
-      !formData.city
+      !formData.city ||
+      !formData.bloodComponentType
     ) {
       toast.error("Please fill in all required fields.");
       return;
@@ -72,12 +71,9 @@ const CreateBloodRequest = () => {
   return (
     <div className="blood-request-page">
       <div className="blood-request-wrapper">
-
         {/* Page Header */}
         <div className="blood-request-header">
-          <div className="header-icon">
-            +
-          </div>
+          <div className="header-icon">+</div>
 
           <div>
             <p className="header-label">EMERGENCY BLOOD SERVICES</p>
@@ -91,10 +87,8 @@ const CreateBloodRequest = () => {
 
         {/* Main Content */}
         <div className="blood-request-layout">
-
           {/* Form Card */}
           <div className="blood-request-card">
-
             <div className="section-heading">
               <span className="section-number">01</span>
 
@@ -105,25 +99,8 @@ const CreateBloodRequest = () => {
             </div>
 
             <form onSubmit={handleSubmit}>
-
-              {/* Patient Name */}
-              <div className="form-group">
-                <label>
-                  Patient Name <span>*</span>
-                </label>
-
-                <input
-                  type="text"
-                  name="patientName"
-                  placeholder="Enter patient's full name"
-                  value={formData.patientName}
-                  onChange={handleChange}
-                />
-              </div>
-
               {/* Blood Group + Units */}
               <div className="form-row">
-
                 <div className="form-group">
                   <label>
                     Blood Group <span>*</span>
@@ -160,7 +137,6 @@ const CreateBloodRequest = () => {
                     onChange={handleChange}
                   />
                 </div>
-
               </div>
 
               {/* Urgency */}
@@ -185,32 +161,65 @@ const CreateBloodRequest = () => {
                 </small>
               </div>
 
-              {/* Reason Section */}
-              <div className="section-heading form-section-heading">
-                <span className="section-number">02</span>
-
-                <div>
-                  <h2>Request Details</h2>
-                  <p>Explain why the blood is required.</p>
-                </div>
-              </div>
-
+              {/* Blood Component Type */}
               <div className="form-group">
-                <label>
-                  Reason for Blood Request <span>*</span>
+                <label htmlFor="bloodComponentType">
+                  Blood Component Type <span>*</span>
                 </label>
 
-                <textarea
-                  name="reason"
-                  placeholder="Example: Blood is required for a patient undergoing surgery..."
-                  value={formData.reason}
+                <select
+                  id="bloodComponentType"
+                  name="bloodComponentType"
+                  value={formData.bloodComponentType}
                   onChange={handleChange}
-                  rows="5"
-                />
+                  required
+                >
+                  <option value="Whole Blood">Whole Blood</option>
+                  <option value="Packed Red Blood Cells (PRBC)">
+                    Packed Red Blood Cells (PRBC)
+                  </option>
+                  <option value="Platelets">Platelets</option>
+                  <option value="Fresh Frozen Plasma (FFP)">
+                    Fresh Frozen Plasma (FFP)
+                  </option>
+                </select>
+              </div>
+
+              {/* Special Processing Needs */}
+              <div className="form-group">
+                <label>Special Processing Needs</label>
+
+                <div className="processing-options">
+                  {["Irradiated", "Leukoreduced", "CMV Negative"].map(
+                    (option) => (
+                      <label className="processing-checkbox" key={option}>
+                        <input
+                          type="checkbox"
+                          checked={formData.specialProcessingNeeds.includes(
+                            option,
+                          )}
+                          onChange={(e) => {
+                            const updatedNeeds = e.target.checked
+                              ? [...formData.specialProcessingNeeds, option]
+                              : formData.specialProcessingNeeds.filter(
+                                  (need) => need !== option,
+                                );
+
+                            setFormData((prev) => ({
+                              ...prev,
+                              specialProcessingNeeds: updatedNeeds,
+                            }));
+                          }}
+                        />
+
+                        <span>{option}</span>
+                      </label>
+                    ),
+                  )}
+                </div>
 
                 <small>
-                  Provide enough information to help donors understand the
-                  situation.
+                  Select any special processing requirements for the blood.
                 </small>
               </div>
 
@@ -225,7 +234,6 @@ const CreateBloodRequest = () => {
               </div>
 
               <div className="form-row">
-
                 <div className="form-group">
                   <label>
                     State <span>*</span>
@@ -253,7 +261,6 @@ const CreateBloodRequest = () => {
                     onChange={handleChange}
                   />
                 </div>
-
               </div>
 
               {/* Submit */}
@@ -281,22 +288,18 @@ const CreateBloodRequest = () => {
                   request is created.
                 </p>
               </div>
-
             </form>
           </div>
 
           {/* Information Panel */}
           <aside className="request-info-panel">
-
-            <div className="info-panel-icon">
-              ♥
-            </div>
+            <div className="info-panel-icon">♥</div>
 
             <h2>How it works</h2>
 
             <p>
-              Our smart matching system searches for available donors based
-              on the blood requirements you provide.
+              Our smart matching system searches for available donors based on
+              the blood requirements you provide.
             </p>
 
             <div className="info-step">
@@ -304,9 +307,7 @@ const CreateBloodRequest = () => {
 
               <div>
                 <h3>Create Request</h3>
-                <p>
-                  Enter the patient's blood requirements and location.
-                </p>
+                <p>Enter the patient's blood requirements and location.</p>
               </div>
             </div>
 
@@ -340,9 +341,7 @@ const CreateBloodRequest = () => {
                 entered correctly before submitting.
               </p>
             </div>
-
           </aside>
-
         </div>
       </div>
     </div>

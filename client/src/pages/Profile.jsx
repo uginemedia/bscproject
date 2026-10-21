@@ -1,6 +1,7 @@
 import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 import api from "../services/api";
 import { AuthContext } from "../context/AuthContext";
@@ -55,19 +56,13 @@ const Profile = () => {
     try {
       setLoading(true);
 
-      const response = await api.put(
-        `/auth/profile/${user._id}`,
-        formData
-      );
+      const response = await api.put(`/auth/profile/${user._id}`, formData);
 
       if (response.data.success) {
         toast.success("Profile updated successfully.");
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to update profile."
-      );
+      toast.error(error.response?.data?.message || "Failed to update profile.");
     } finally {
       setLoading(false);
     }
@@ -89,32 +84,32 @@ const Profile = () => {
 
   return (
     <div className="profile-page">
-
       <div className="profile-wrapper">
+        {/* Back to Dashboard */}
+
+        <Link to="/dashboard" className="profile-back-link">
+          <span>←</span>
+          Back to Dashboard
+        </Link>
 
         {/* =========================
             PROFILE HEADER
         ========================= */}
         <div className="profile-hero">
-
           <div className="profile-avatar">
-            {user.fullName
-              ? user.fullName.charAt(0).toUpperCase()
-              : "U"}
+            {user.fullName ? user.fullName.charAt(0).toUpperCase() : "U"}
           </div>
 
           <div className="profile-hero-content">
             <div className="profile-role">
-              {user.role === "donor"
-                ? "Blood Donor"
-                : user.role}
+              {user.role === "donor" ? "Blood Donor" : user.role}
             </div>
 
             <h1>{user.fullName}</h1>
 
             <p>
-              Keep your information up to date so we can
-              connect you with blood requests when you are needed.
+              Keep your information up to date so we can connect you with blood
+              requests when you are needed.
             </p>
           </div>
 
@@ -131,36 +126,27 @@ const Profile = () => {
               ? "Available to Donate"
               : "Currently Unavailable"}
           </div>
-
         </div>
-
 
         {/* =========================
             PROFILE FORM
         ========================= */}
         <div className="profile-card">
-
           <div className="profile-card-header">
             <div>
               <h2>Personal Information</h2>
 
               <p>
-                Update your information to keep your donor
-                profile accurate.
+                Update your information to keep your donor profile accurate.
               </p>
             </div>
 
-            <div className="profile-card-icon">
-              👤
-            </div>
+            <div className="profile-card-icon">👤</div>
           </div>
 
-
           <form onSubmit={handleSubmit}>
-
             {/* Basic Information */}
             <div className="profile-section">
-
               <div className="profile-section-title">
                 <span>01</span>
                 <div>
@@ -169,9 +155,7 @@ const Profile = () => {
                 </div>
               </div>
 
-
               <div className="profile-form-grid">
-
                 <div className="profile-form-group">
                   <label>Full Name</label>
 
@@ -188,7 +172,6 @@ const Profile = () => {
                   </div>
                 </div>
 
-
                 <div className="profile-form-group">
                   <label>Email Address</label>
 
@@ -203,11 +186,8 @@ const Profile = () => {
                     />
                   </div>
 
-                  <small>
-                    Email cannot be changed.
-                  </small>
+                  <small>Email cannot be changed.</small>
                 </div>
-
 
                 <div className="profile-form-group">
                   <label>Phone Number</label>
@@ -224,15 +204,11 @@ const Profile = () => {
                     />
                   </div>
                 </div>
-
               </div>
-
             </div>
-
 
             {/* Medical Information */}
             <div className="profile-section">
-
               <div className="profile-section-title">
                 <span>02</span>
 
@@ -242,25 +218,19 @@ const Profile = () => {
                 </div>
               </div>
 
-
               <div className="profile-form-grid">
-
                 <div className="profile-form-group">
                   <label>Blood Group</label>
 
                   <div className="input-wrapper">
-                    <span className="input-icon blood-icon">
-                      +
-                    </span>
+                    <span className="input-icon blood-icon">+</span>
 
                     <select
                       name="bloodGroup"
                       value={formData.bloodGroup}
                       onChange={handleChange}
                     >
-                      <option value="">
-                        Select blood group
-                      </option>
+                      <option value="">Select blood group</option>
 
                       <option value="A+">A+</option>
                       <option value="A-">A-</option>
@@ -274,7 +244,6 @@ const Profile = () => {
                   </div>
                 </div>
 
-
                 <div className="profile-form-group">
                   <label>Genotype</label>
 
@@ -286,9 +255,7 @@ const Profile = () => {
                       value={formData.genotype}
                       onChange={handleChange}
                     >
-                      <option value="">
-                        Select genotype
-                      </option>
+                      <option value="">Select genotype</option>
 
                       <option value="AA">AA</option>
                       <option value="AS">AS</option>
@@ -298,7 +265,6 @@ const Profile = () => {
                     </select>
                   </div>
                 </div>
-
 
                 <div className="profile-form-group">
                   <label>Weight</label>
@@ -314,34 +280,24 @@ const Profile = () => {
                       placeholder="Enter weight"
                     />
 
-                    <span className="input-unit">
-                      kg
-                    </span>
+                    <span className="input-unit">kg</span>
                   </div>
                 </div>
-
               </div>
-
             </div>
-
 
             {/* Location */}
             <div className="profile-section">
-
               <div className="profile-section-title">
                 <span>03</span>
 
                 <div>
                   <h3>Location</h3>
-                  <p>
-                    Used to find nearby blood requests
-                  </p>
+                  <p>Used to find nearby blood requests</p>
                 </div>
               </div>
 
-
               <div className="profile-form-grid">
-
                 <div className="profile-form-group">
                   <label>State</label>
 
@@ -358,7 +314,6 @@ const Profile = () => {
                   </div>
                 </div>
 
-
                 <div className="profile-form-group">
                   <label>City</label>
 
@@ -374,30 +329,22 @@ const Profile = () => {
                     />
                   </div>
                 </div>
-
               </div>
-
             </div>
-
 
             {/* Availability */}
             <div className="availability-card">
-
-              <div className="availability-icon">
-                ✓
-              </div>
+              <div className="availability-icon">✓</div>
 
               <div className="availability-content">
                 <h3>Available to Donate</h3>
 
                 <p>
-                  Allow hospitals to find you when your
-                  blood type is needed.
+                  Allow hospitals to find you when your blood type is needed.
                 </p>
               </div>
 
               <label className="switch">
-
                 <input
                   type="checkbox"
                   name="isAvailable"
@@ -406,18 +353,14 @@ const Profile = () => {
                 />
 
                 <span className="slider"></span>
-
               </label>
-
             </div>
-
 
             {/* Submit */}
             <div className="profile-form-footer">
-
               <p>
-                Your information helps us match you with
-                relevant emergency blood requests.
+                Your information helps us match you with relevant emergency
+                blood requests.
               </p>
 
               <button
@@ -437,15 +380,10 @@ const Profile = () => {
                   </>
                 )}
               </button>
-
             </div>
-
           </form>
-
         </div>
-
       </div>
-
     </div>
   );
 };

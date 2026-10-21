@@ -3,16 +3,14 @@ const User = require("../models/User");
 const Notification = require("../models/Notification");
 
 // Create a new blood request
+
 const createBloodRequest = async (req, res) => {
   try {
     // 1. Create the blood request
-    const bloodRequest = await BloodRequest.create(req.body);
-
-    // TEMPORARY: Check all registered donors
-    const allDonors = await User.find({
-      role: "donor",
-    }).select("fullName bloodGroup state city isAvailable");
-
+    const bloodRequest = await BloodRequest.create({
+      ...req.body,
+      status: req.body.status || "Pending",
+    });
     // 2. Find matching donors
     const donors = await User.find({
       role: "donor",
@@ -21,31 +19,29 @@ const createBloodRequest = async (req, res) => {
       isAvailable: true,
     }).select("-password");
 
-    // 3. Create notifications
-    const notifications = donors.map((donor) => ({
-      recipient: donor._id,
+    // 3. Create ONE notification for all users
+    const notification = await Notification.create({
+      recipient: null,
       sender: bloodRequest.hospital,
       bloodRequest: bloodRequest._id,
       title: "Emergency Blood Request",
-      message: `${bloodRequest.unitsNeeded} unit(s) of ${bloodRequest.bloodGroup} blood is urgently needed in ${bloodRequest.city}, ${bloodRequest.state}.`,
-    }));
+      message: `${bloodRequest.unitsNeeded} unit(s) of ${bloodRequest.bloodGroup} blood is needed in ${bloodRequest.city}, ${bloodRequest.state}. All users can view this request.`,
+      type: "blood_request",
+    });
 
-    // 4. Save notifications
-    if (notifications.length > 0) {
-      await Notification.insertMany(notifications);
-    }
-
-    res.status(201).json({
+    // 4. Return the result
+    return res.status(201).json({
       success: true,
-      message: "Blood request created successfully.",
+      message: "Blood request created and notification published successfully.",
       totalMatches: donors.length,
       bloodRequest,
+      notification,
       matchedDonors: donors,
     });
   } catch (error) {
     console.error("Create Blood Request Error:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });

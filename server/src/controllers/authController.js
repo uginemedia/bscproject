@@ -1,10 +1,23 @@
 const User = require("../models/User.js");
+const Hospital = require("../models/Hospital");
 
 /** Register User */
 const register = async (req, res) => {
   try {
-    const { fullName, email, password, phone, role, address, state, city } =
-      req.body;
+    const {
+      fullName,
+      email,
+      password,
+      phone,
+      role,
+      address,
+      state,
+      city,
+      genotype,
+      bloodGroup,
+      gender,
+      weight,
+    } = req.body;
 
     if (!fullName || !email || !password) {
       return res.status(400).json({
@@ -28,10 +41,13 @@ const register = async (req, res) => {
       email,
       password,
       phone,
-      role,
       address,
       state,
       city,
+      genotype,
+      bloodGroup,
+      gender,
+      weight,
     });
 
     res.status(201).json({
@@ -40,6 +56,88 @@ const register = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/** Register Hospital */
+const registerHospital = async (req, res) => {
+  try {
+    const { hospitalName, email, password, phone, address, state, city } =
+      req.body;
+
+    // Validate required fields
+    if (
+      !hospitalName?.trim() ||
+      !email?.trim() ||
+      !password ||
+      !phone?.trim() ||
+      !address?.trim() ||
+      !state?.trim() ||
+      !city?.trim()
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide all hospital registration fields",
+      });
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long",
+      });
+    }
+
+    // Check if hospital email already exists
+    const existingHospital = await Hospital.findOne({
+      email: email.trim().toLowerCase(),
+    });
+
+    if (existingHospital) {
+      return res.status(400).json({
+        success: false,
+        message: "Hospital email already exists",
+      });
+    }
+
+    // Create hospital account
+    const hospital = await Hospital.create({
+      hospitalName,
+      email,
+      password,
+      phone,
+      address,
+      state,
+      city,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Hospital registration successful",
+      hospital: {
+        _id: hospital._id,
+        hospitalName: hospital.hospitalName,
+        email: hospital.email,
+        phone: hospital.phone,
+        address: hospital.address,
+        state: hospital.state,
+        city: hospital.city,
+      },
+    });
+  } catch (error) {
+    // Handle duplicate email errors
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "Hospital email already exists",
+      });
+    }
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -85,6 +183,57 @@ const login = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/** Login Hospital */
+const loginHospital = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required",
+      });
+    }
+
+    // Find hospital by email and include password
+    const hospital = await Hospital.findOne({
+      email: email.trim().toLowerCase(),
+    }).select("+password");
+
+    if (!hospital) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    // Compare passwords
+    const isMatch = await hospital.comparePassword(password);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    // Return hospital details without password
+    const hospitalData = hospital.toObject();
+    delete hospitalData.password;
+
+    return res.status(200).json({
+      success: true,
+      message: "Hospital login successful",
+      hospital: hospitalData,
+    });
+  } catch (error) {
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -144,4 +293,6 @@ module.exports = {
   register,
   login,
   updateProfile,
+  registerHospital,
+  loginHospital,
 };

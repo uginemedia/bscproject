@@ -441,25 +441,13 @@
   align-items: center;
   gap: 10px;
   padding: 11px 16px;
-  background: #c7191f;
-  color: white;
   border-radius: 8px;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   transition:
     background 0.2s ease,
     transform 0.2s ease;
-}
-
-.view-responses-button span {
-  font-size: 17px;
-}
-
-.view-responses-button:hover {
-  background: #a9141a;
-  color: white;
-  transform: translateX(2px);
 }
 
 /* =========================================
@@ -662,4 +650,29 @@
   .requests-empty-state {
     padding: 45px 20px;
   }
+}
+
+/* Back to Dashboard Link */
+.requests-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  color: #c7191f;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.requests-back-link span {
+  font-size: 23px;
+  line-height: 1;
+}
+
+.requests-back-link:hover {
+  color: #991116;
+  transform: translateX(-3px);
 }

@@ -8,12 +8,6 @@ const bloodRequestSchema = new mongoose.Schema(
       required: true,
     },
 
-    patientName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
     bloodGroup: {
       type: String,
       required: true,
@@ -31,9 +25,21 @@ const bloodRequestSchema = new mongoose.Schema(
       default: "Normal",
     },
 
-    reason: {
+    bloodComponentType: {
       type: String,
-      required: true,
+      enum: [
+        "Whole Blood",
+        "Packed Red Blood Cells (PRBC)",
+        "Platelets",
+        "Fresh Frozen Plasma (FFP)",
+      ],
+      default: "Whole Blood",
+    },
+
+    specialProcessingNeeds: {
+      type: [String],
+      enum: ["Irradiated", "Leukoreduced", "CMV Negative"],
+      default: [],
     },
 
     state: {

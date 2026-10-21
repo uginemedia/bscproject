@@ -18,7 +18,38 @@ const MyRequests = () => {
       const response = await api.get(`/blood-requests/hospital/${user._id}`);
 
       if (response.data.success) {
-        setRequests(response.data.requests);
+        const requestsWithAcceptedDonors = await Promise.all(
+          response.data.requests.map(async (request) => {
+            try {
+              const donationResponse = await api.get(
+                `/donations/request/${request._id}`,
+              );
+
+              const donations = donationResponse.data.donations || [];
+
+              const acceptedDonors = donations.filter(
+                (donation) => donation.status?.toLowerCase() === "accepted",
+              ).length;
+
+              return {
+                ...request,
+                acceptedDonors,
+              };
+            } catch (error) {
+              console.error(
+                `Failed to load responses for request ${request._id}`,
+                error,
+              );
+
+              return {
+                ...request,
+                acceptedDonors: 0,
+              };
+            }
+          }),
+        );
+
+        setRequests(requestsWithAcceptedDonors);
       }
     } catch (error) {
       toast.error(
@@ -52,28 +83,30 @@ const MyRequests = () => {
   );
 
   const totalMatches = requests.reduce(
-    (total, request) => total + (request.matchedDonors?.length || 0),
+    (total, request) => total + (request.acceptedDonors || 0),
     0,
   );
 
   return (
     <div className="my-requests-page">
       <div className="my-requests-wrapper">
+        {/* Back to Hospital Dashboard */}
+        <Link to="/hospital-dashboard" className="requests-back-link">
+          <span>←</span>
+          Back to Dashboard
+        </Link>
 
         {/* =========================
             HEADER
         ========================== */}
         <div className="requests-page-header">
           <div>
-            <span className="requests-eyebrow">
-              HOSPITAL MANAGEMENT
-            </span>
+            <span className="requests-eyebrow">HOSPITAL MANAGEMENT</span>
 
             <h1>My Blood Requests</h1>
 
             <p>
-              Manage your hospital's blood requests and monitor donor
-              responses.
+              Manage your hospital's blood requests and monitor donor responses.
             </p>
           </div>
 
@@ -87,11 +120,8 @@ const MyRequests = () => {
             SUMMARY
         ========================== */}
         <div className="request-summary">
-
           <div className="request-summary-card">
-            <div className="summary-icon total">
-              #
-            </div>
+            <div className="summary-icon total">#</div>
 
             <div>
               <span>Total Requests</span>
@@ -100,9 +130,7 @@ const MyRequests = () => {
           </div>
 
           <div className="request-summary-card">
-            <div className="summary-icon critical">
-              !
-            </div>
+            <div className="summary-icon critical">!</div>
 
             <div>
               <span>Critical Requests</span>
@@ -111,16 +139,13 @@ const MyRequests = () => {
           </div>
 
           <div className="request-summary-card">
-            <div className="summary-icon donors">
-              ♥
-            </div>
+            <div className="summary-icon donors">♥</div>
 
             <div>
               <span>Matched Donors</span>
               <strong>{totalMatches}</strong>
             </div>
           </div>
-
         </div>
 
         {/* =========================
@@ -128,10 +153,7 @@ const MyRequests = () => {
         ========================== */}
         {requests.length === 0 ? (
           <div className="requests-empty-state">
-
-            <div className="empty-icon">
-              +
-            </div>
+            <div className="empty-icon">+</div>
 
             <h2>No Blood Requests Yet</h2>
 
@@ -143,11 +165,9 @@ const MyRequests = () => {
             <Link to="/create-request" className="empty-create-button">
               Create Your First Request
             </Link>
-
           </div>
         ) : (
           <div className="requests-content">
-
             <div className="requests-content-header">
               <div>
                 <h2>Your Requests</h2>
@@ -159,62 +179,37 @@ const MyRequests = () => {
             </div>
 
             <div className="hospital-request-list">
-
               {requests.map((request) => {
-
-                const matchedDonors =
-                  request.matchedDonors?.length || 0;
+                const matchedDonors = request.matchedDonors?.length || 0;
 
                 return (
-                  <div
-                    className="hospital-request-card"
-                    key={request._id}
-                  >
-
+                  <div className="hospital-request-card" key={request._id}>
                     {/* Card Top */}
                     <div className="hospital-request-top">
-
                       <div className="blood-request-title">
-
                         <div className="blood-group-badge">
                           {request.bloodGroup}
                         </div>
 
                         <div>
-                          <span className="request-label">
-                            BLOOD REQUEST
-                          </span>
+                          <span className="request-label">BLOOD REQUEST</span>
 
-                          <h2>
-                            {request.bloodGroup} Blood
-                          </h2>
-
-                          <p>
-                            Patient:{" "}
-                            <strong>{request.patientName}</strong>
-                          </p>
+                          <h2>{request.bloodGroup} Blood</h2>
                         </div>
-
                       </div>
 
                       <span
-                        className={`request-urgency ${
-                          request.urgency?.toLowerCase()
-                        }`}
+                        className={`request-urgency ${request.urgency?.toLowerCase()}`}
                       >
                         {request.urgency}
                       </span>
-
                     </div>
 
                     {/* Details */}
                     <div className="hospital-request-details">
-
                       <div className="request-info-item">
                         <span>Units Needed</span>
-                        <strong>
-                          {request.unitsNeeded}
-                        </strong>
+                        <strong>{request.unitsNeeded}</strong>
                       </div>
 
                       <div className="request-info-item">
@@ -225,41 +220,24 @@ const MyRequests = () => {
                       </div>
 
                       <div className="request-info-item donor-match-info">
-                        <span>Matching Donors</span>
+                        <span>Accepted Donors</span>
 
-                        <strong>
-                          {matchedDonors}
-                        </strong>
+                        <strong>{request.acceptedDonors}</strong>
 
                         <small>
-                          {matchedDonors === 1
-                            ? "donor found"
-                            : "donors found"}
+                          {request.acceptedDonors === 1
+                            ? "donor accepted"
+                            : "donors accepted"}
                         </small>
                       </div>
-
-                    </div>
-
-                    {/* Reason */}
-                    <div className="hospital-request-reason">
-
-                      <span>Reason for Request</span>
-
-                      <p>{request.reason}</p>
-
                     </div>
 
                     {/* Footer */}
                     <div className="hospital-request-footer">
-
                       <div className="request-status">
-
                         <span className="status-dot"></span>
 
-                        <span>
-                          Request created
-                        </span>
-
+                        <span>Request created</span>
                       </div>
 
                       <Link
@@ -269,17 +247,13 @@ const MyRequests = () => {
                         View Donor Responses
                         <span>→</span>
                       </Link>
-
                     </div>
-
                   </div>
                 );
               })}
-
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
